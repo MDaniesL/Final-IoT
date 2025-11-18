@@ -8,8 +8,8 @@ from datetime import datetime, timedelta, time
 #  InfluxDB Connection Settings
 # -------------------------------------------------------------------
 INFLUXDB_URL = "https://us-east-1-1.aws.cloud2.influxdata.com"
-INFLUXDB_TOKEN = "YOUR_TOKEN"
-INFLUXDB_ORG = "YOUR_ORG"
+INFLUXDB_TOKEN = "JcKXoXE30JQvV9Ggb4-zv6sQc0Zh6B6Haz5eMRW0FrJEduG2KcFJN9-7RoYvVORcFgtrHR-Q_ly-52pD7IC6JQ=="
+INFLUXDB_ORG = "0925ccf91ab36478"
 INFLUXDB_BUCKET = "EXTREME_MANUFACTURING"
 
 client = InfluxDBClient(url=INFLUXDB_URL, token=INFLUXDB_TOKEN, org=INFLUXDB_ORG)
