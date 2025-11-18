@@ -67,7 +67,7 @@ def temp_status(df):
 HOT_IMAGE = "https://i.imgur.com/WwmG3aS.png"
 
 
-COLD_IMAGE = "https://i.imgur.com/3d2Y5bY.png"
+COLD_IMAGE = "https://www.durham.ca/en/health-and-wellness/resources/Images/CWIS-Icon.png"
 
 
 #  Streamlit App Dashboard
