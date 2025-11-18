@@ -126,13 +126,28 @@ for graph_id in st.session_state.graphs:
 
         # Middle timestamp
         mid = midpoint_timestamp(df_filtered)
+        mid_hour = mid.hour
+
+        # Elección de imagen según la hora
+        if 0 <= mid_hour < 6:
+            image_url = "https://static.thenounproject.com/png/2166993-200.png"
+        elif 6 <= mid_hour < 12:
+            image_url = "https://media.istockphoto.com/id/1262293120/vector/coffee-cup-symbol-icon.jpg?s=612x612&w=0&k=20&c=C5VHghz8P7qraOslQk13-_ArDWHzjhm5ARZ8o7CrO6Y="
+        elif 12 <= mid_hour < 18:
+            image_url = "https://static.vecteezy.com/system/resources/thumbnails/046/619/542/small/sun-icon-design-vector.jpg"
+        else:
+            image_url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcymBaPvG8cZX9rQ0ftGVkZuAazQxTZkTacw&s"
+
+        # Renderizado de imagen
+        st.image(image_url, width=180)
+
 
         # Heat / cold image
         status = temp_status(df_filtered)
         if status == "hot":
-            st.image(HOT_IMAGE, width=180, caption="⚠️ Caliente")
+            st.image(HOT_IMAGE, width=180, caption="⚠️ Muy Caliente")
         elif status == "cold":
-            st.image(COLD_IMAGE, width=180, caption="❄️ Frío")
+            st.image(COLD_IMAGE, width=180, caption="❄️ Muy Frío")
 
     # Botón de eliminar
     if st.button(f"🗑️ Eliminar gráfico {graph_id + 1}", key=f"remove_{graph_id}"):
