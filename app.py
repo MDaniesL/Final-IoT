@@ -64,8 +64,10 @@ def temp_status(df):
     return "normal"
 
 
-HOT_IMAGE = "https://previews.123rf.com/images/liena10/liena102208/liena10220800032/190086285-thermometer-icon-heat-temperature-scale-symbol-warm-weather-sign-vector-image.jpg"
-COLD_IMAGE = "https://www.durham.ca/en/health-and-wellness/resources/Images/CWIS-Icon.png"
+HOT_IMAGE = "https://i.imgur.com/WwmG3aS.png"
+
+
+COLD_IMAGE = "https://i.imgur.com/3d2Y5bY.png"
 
 
 #  Streamlit App Dashboard
