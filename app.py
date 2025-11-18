@@ -124,7 +124,6 @@ for graph_id in st.session_state.graphs:
 
         # Middle timestamp
         mid = midpoint_timestamp(df_filtered)
-        st.info(f"🕒 Punto medio: **{mid}**")
 
         # Heat / cold image
         status = temp_status(df_filtered)
