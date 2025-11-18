@@ -64,7 +64,7 @@ def temp_status(df):
     return "normal"
 
 
-HOT_IMAGE = "https://i.imgur.com/WwmG3aS.png"
+HOT_IMAGE = "https://static.vecteezy.com/system/resources/thumbnails/045/364/694/small/midsummer-thermometer-icon-high-temperature-thermometer-and-sun-vector.jpg"
 
 
 COLD_IMAGE = "https://www.durham.ca/en/health-and-wellness/resources/Images/CWIS-Icon.png"
