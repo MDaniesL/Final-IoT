@@ -4,9 +4,7 @@ from influxdb_client import InfluxDBClient
 import plotly.express as px
 from datetime import datetime, timedelta, time
 
-# -------------------------------------------------------------------
-#  InfluxDB Connection Settings
-# -------------------------------------------------------------------
+#  Conexión
 INFLUXDB_URL = "https://us-east-1-1.aws.cloud2.influxdata.com"
 INFLUXDB_TOKEN = "JcKXoXE30JQvV9Ggb4-zv6sQc0Zh6B6Haz5eMRW0FrJEduG2KcFJN9-7RoYvVORcFgtrHR-Q_ly-52pD7IC6JQ=="
 INFLUXDB_ORG = "0925ccf91ab36478"
@@ -16,9 +14,7 @@ client = InfluxDBClient(url=INFLUXDB_URL, token=INFLUXDB_TOKEN, org=INFLUXDB_ORG
 query_api = client.query_api()
 
 
-# -------------------------------------------------------------------
-#  Load DHT22 Data Only For Yesterday
-# -------------------------------------------------------------------
+#  Lectura de datos de ayer
 def load_yesterday_data():
     today = datetime.now().date()
     yesterday = today - timedelta(days=1)
@@ -45,9 +41,7 @@ def load_yesterday_data():
     return df
 
 
-# -------------------------------------------------------------------
-#  Helper Functions
-# -------------------------------------------------------------------
+#  Funciones
 def filter_by_time(df, start_t, end_t):
     """Filter yesterday’s data by user-selected time range."""
     mask = (df["Tiempo"].dt.time >= start_t) & (df["Tiempo"].dt.time <= end_t)
@@ -70,43 +64,39 @@ def temp_status(df):
     return "normal"
 
 
-HOT_IMAGE = "https://i.imgur.com/WwmG3aS.png"
-COLD_IMAGE = "https://i.imgur.com/3d2Y5bY.png"
+HOT_IMAGE = Image.open('hotwarning.jpg')
+COLD_IMAGE = Image.open('coldwarning.png')
 
 
-# -------------------------------------------------------------------
-#  Streamlit App Layout
-# -------------------------------------------------------------------
-st.title("🌡️ Visualización de Temperatura — DHT22 (solo fecha anterior)")
-st.write("Selecciona rangos horarios del día anterior para crear gráficos independientes.")
+#  Streamlit App Dashboard
+st.title("🌡️ Temperatura de Ayer")
+st.write("Selecciona rangos horarios para crear ver cómo estuvo la temperatura ayer.")
 
-# Load yesterday data once
+# Carga los datos de ayer
 df_full = load_yesterday_data()
 if df_full.empty:
     st.error("No hay datos disponibles para la fecha anterior.")
     st.stop()
 
-# Initialize session state
+# Inicialización del estado
 if "graphs" not in st.session_state:
     st.session_state.graphs = []  # holds graph IDs
 
 
 # Add graph
-if st.button("➕ Añadir gráfico"):
+if st.button("➕ Añadir Gráfico"):
     new_id = len(st.session_state.graphs)
     st.session_state.graphs.append(new_id)
 
 
-# -------------------------------------------------------------------
-#  Render Each Graph
-# -------------------------------------------------------------------
+#  Renderizado de gráficos
 to_remove = []
 
 for graph_id in st.session_state.graphs:
 
     st.subheader(f"📈 Gráfico #{graph_id + 1}")
 
-    # Time range selectors
+    # Selección de rangos
     col1, col2 = st.columns(2)
     with col1:
         start_time = st.time_input(
@@ -121,7 +111,7 @@ for graph_id in st.session_state.graphs:
             key=f"end_{graph_id}"
         )
 
-    # Filter data
+    # Filtrado de datos
     df_filtered = filter_by_time(df_full, start_time, end_time)
 
     if df_filtered.empty:
@@ -139,18 +129,18 @@ for graph_id in st.session_state.graphs:
         # Heat / cold image
         status = temp_status(df_filtered)
         if status == "hot":
-            st.image(HOT_IMAGE, width=180, caption="⚠️ Temperatura > 35°C")
+            st.image(HOT_IMAGE, width=180, caption="⚠️ Caliente")
         elif status == "cold":
-            st.image(COLD_IMAGE, width=180, caption="❄️ Temperatura < 10°C")
+            st.image(COLD_IMAGE, width=180, caption="❄️ Frío")
 
-    # Remove button
+    # Botón de eliminar
     if st.button(f"🗑️ Eliminar gráfico {graph_id + 1}", key=f"remove_{graph_id}"):
         to_remove.append(graph_id)
 
     st.markdown("---")
 
 
-# Remove graphs marked for deletion
+# Borrar gráficos marcados para eliminar
 if to_remove:
     st.session_state.graphs = [g for g in st.session_state.graphs if g not in to_remove]
     st.rerun()
